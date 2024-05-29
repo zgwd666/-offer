@@ -1,0 +1,37 @@
+#https://leetcode.cn/problems/liang-ge-lian-biao-de-di-yi-ge-gong-gong-jie-dian-lcof/
+'''
+解题思路：
+设第一个公共节点为node，链表headA的节点数量为a，链表headB的节点数量为B，两链表的公共尾部的节点数量有c，则有
+
+头节点headA到node前，共有a-c个节点
+
+头节点headB到node前，共有b-c个节点
+构建两个临时指着cur1，cur2分别指向头节点headA和headB，进行如下操作
+
+指针cur1先遍历玩链表headA，再开始遍历链表headB，当走到node时，共走步数为a+(b-c)
+
+指针cur2先遍历玩链表headB，再开始遍历链表headA，当走到node时，共走步数为b+(a-c)
+
+因为a+(b-c)=b+(a-c)
+
+如果两链表有公共尾部，指针cur1，cur2同时指向第一个公共节点node
+
+如果两链表无公共尾部，指针cur1,cur2同时遍历完headA和headB，此时二者指向null
+'''
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> ListNode:
+        if not headA or not headB:return None#判断特殊情况
+        #构建两个临时指着cur1，cur2分别指向头节点headA和headB
+        cur1=headA
+        cur2=headB
+        #两个指针遍历，直到二者找到公共节点或者都等于None
+        while cur1!=cur2:
+            cur1=cur1.next if cur1 else headB
+            cur2=cur2.next if cur2 else headA
+        return cur1#返回公共节点
